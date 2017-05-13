@@ -20,5 +20,5 @@ export default function svg ( options = {} ) {
 
 			return { code: exported, map: { mappings: '' } }
 		}
-	};
+	}
 }
