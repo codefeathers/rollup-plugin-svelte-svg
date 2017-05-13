@@ -15,8 +15,8 @@
   "scripts": {
     "pretest": "npm run build:cjs",
     "build": "npm run build:cjs && npm run build:es",
-    "build:cjs": "rollup -c -o dist/rollup-plugin-image.cjs.js -f cjs",
-    "build:es": "rollup -c -o dist/rollup-plugin-image.es.js -f es6",
+    "build:cjs": "rollup -c -o dist/rollup-plugin-svg.cjs.js -f cjs",
+    "build:es": "rollup -c -o dist/rollup-plugin-svg.es.js -f es6",
     "prepublish": "npm run build"
   },
   "repository": {
