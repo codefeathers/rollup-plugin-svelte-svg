@@ -5,7 +5,7 @@ Import SVG files
 ## Installation
 
 ```bash
-yarn install rollup-plugin-svg --dev
+yarn add rollup-plugin-svg --dev
 ```
 
 ## Usage
