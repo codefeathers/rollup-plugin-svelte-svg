@@ -1,24 +1,28 @@
-import { extname } from 'path';
+import { extname } from 'path'
 import { createFilter } from 'rollup-pluginutils'
 
-export default function svg ( options = {} ) {
-	const filter = createFilter( options.include, options.exclude )
+function toDataUrl (code) {
+  const mime = 'image/svg+xml'
+  const buffer = Buffer.from(code, 'utf-8')
+  const encoded = buffer.toString('base64')
+  return `'data:${mime};base64,${encoded}'`
+}
 
-	return {
-		name: 'svg',
+export default function svg (options = {}) {
+  const filter = createFilter(options.include, options.exclude)
 
-		transform ( code, id ) {
+  return {
+    name: 'svg',
 
-			if ( !filter( id ) || extname( id ) !== '.svg') {
-				return null
-			}
+    transform (code, id) {
+      if (!filter(id) || extname(id) !== '.svg') {
+        return null
+      }
 
-			const mime = 'image/svg+xml'
-			const buffer = Buffer.from(code.trim(), 'utf-8')
-			const encoded = buffer.toString('base64')
-			const exported = `export default 'data:${mime};base64,${encoded}'`
+      const content = code.trim()
+      const encoded = options.base64 ? toDataUrl(content) : JSON.stringify(content)
 
-			return { code: exported, map: { mappings: '' } }
-		}
-	}
+      return { code: `export default ${encoded}`, map: { mappings: '' } }
+    }
+  }
 }
