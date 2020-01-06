@@ -1,28 +1,45 @@
-import { extname } from 'path'
-import { createFilter } from 'rollup-pluginutils'
+import { extname } from "path";
+import { createFilter } from "rollup-pluginutils";
 
-function toDataUrl (code) {
-  const mime = 'image/svg+xml'
-  const buffer = Buffer.from(code, 'utf-8')
-  const encoded = buffer.toString('base64')
-  return `'data:${mime};base64,${encoded}'`
-}
+const toSvelte = svg = content => `
+<script>
+	export let width;
+	export let height;
+	export let viewBox;
+	export let fill;
+	export let stroke;
+	export let strokeWidth;
+	export let content;
+</script>
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	{width}
+	{height}
+	{viewBox}
+	{fill}
+	{stroke}
+	{strokeWidth}
+>
+	{@html content}
+</svg>
+`;
 
 export default function svg (options = {}) {
-  const filter = createFilter(options.include, options.exclude)
+	const filter = createFilter(options.include, options.exclude);
 
-  return {
-    name: 'svg',
+	return {
+		name: "svg",
 
-    transform (code, id) {
-      if (!filter(id) || extname(id) !== '.svg') {
-        return null
-      }
+		transform (code, id) {
+			if (!filter(id) || extname(id) !== ".svg") {
+				return null;
+			}
 
-      const content = code.trim()
-      const encoded = options.base64 ? toDataUrl(content) : JSON.stringify(content)
+			const content = JSON.stringify(code.trim());
 
-      return { code: `export default ${encoded}`, map: { mappings: '' } }
-    }
-  }
+			return { code: toSvelte(content) };
+		}
+	}
 }
