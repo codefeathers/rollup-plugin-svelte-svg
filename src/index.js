@@ -1,7 +1,7 @@
 import { extname } from "path";
 import { createFilter } from "rollup-pluginutils";
 
-const toSvelte = svg = content => `
+const toSvelte = content => `
 <script>
 	export let width;
 	export let height;
@@ -22,7 +22,7 @@ const toSvelte = svg = content => `
 	{stroke}
 	{strokeWidth}
 >
-	{@html content}
+	{@html ${content}}
 </svg>
 `;
 
