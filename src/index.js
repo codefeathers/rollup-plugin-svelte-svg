@@ -1,5 +1,6 @@
 import { extname } from "path";
 import { createFilter } from "rollup-pluginutils";
+import Svelte from "svelte/compiler";
 
 const toSvelte = content => `
 <script>
@@ -26,6 +27,9 @@ const toSvelte = content => `
 </svg>
 `;
 
+const head = xs => xs[0];
+const tail = xs => xs[xs.length - 1];
+
 export default function svg (options = {}) {
 	const filter = createFilter(options.include, options.exclude);
 
@@ -37,9 +41,15 @@ export default function svg (options = {}) {
 				return null;
 			}
 
-			const content = JSON.stringify(code.trim());
+			const content = toSvelte(
+				JSON.stringify(code.trim()));
+			const { js } = Svelte.compile(content, {
+				filename: id,
+				name: head(tail(id.split("/")).split(".")),
+				format: "esm",
+			});
 
-			return { code: toSvelte(content) };
+			return { code: js };
 		}
 	}
 }
