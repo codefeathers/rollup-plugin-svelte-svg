@@ -43,13 +43,13 @@ export default function svg (options = {}) {
 
 			const content = toSvelte(
 				JSON.stringify(code.trim()));
-			const { js } = Svelte.compile(content, {
+			const { js: { code, map } } = Svelte.compile(content, {
 				filename: id,
 				name: head(tail(id.split("/")).split(".")),
 				format: "esm",
 			});
 
-			return { code: js };
+			return { code, map };
 		}
 	}
 }
