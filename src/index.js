@@ -36,13 +36,13 @@ export default function svg (options = {}) {
 	return {
 		name: "svg",
 
-		transform (code, id) {
+		transform (source, id) {
 			if (!filter(id) || extname(id) !== ".svg") {
 				return null;
 			}
 
 			const content = toSvelte(
-				JSON.stringify(code.trim()));
+				JSON.stringify(source.trim()));
 			const { js: { code, map } } = Svelte.compile(content, {
 				filename: id,
 				name: head(tail(id.split("/")).split(".")),
