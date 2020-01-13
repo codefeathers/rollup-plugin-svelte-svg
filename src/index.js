@@ -1,6 +1,10 @@
 import { extname } from "path";
+import { platform } from "os";
+
 import { createFilter } from "rollup-pluginutils";
 import Svelte from "svelte/compiler";
+
+const isWindows = platform().includes("win");
 
 const toSvelte = content => `
 <script>
@@ -45,7 +49,7 @@ export default function svg (options = {}) {
 				JSON.stringify(source.trim()));
 			const { js: { code, map } } = Svelte.compile(content, {
 				filename: id,
-				name: head(tail(id.split("/")).split(".")),
+				name: head(tail(id.split(isWindows? "\\" : "/")).split(".")),
 				format: "esm",
 			});
 
