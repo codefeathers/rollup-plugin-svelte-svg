@@ -51,6 +51,7 @@ export default function svg (options = {}) {
 				filename: id,
 				name: head(tail(id.split(isWindows? "\\" : "/")).split(".")),
 				format: "esm",
+				generate: options.generate
 			});
 
 			return { code, map };
