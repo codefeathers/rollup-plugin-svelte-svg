@@ -10,6 +10,7 @@ npm i -D rollup-plugin-svelte-svg
 
 ## Usage
 
+### Svelte
 ```js
 // rollup.config.js
 import svelteSVG from "rollup-plugin-svelte-svg";
@@ -20,6 +21,27 @@ export default {
 	plugins: [
 		svelteSVG(),
 	],
+}
+```
+
+### Sapper
+```js
+// rollup.config.js
+import svelteSVG from "rollup-plugin-svelte-svg";
+
+export default {
+    client: {
+        plugins: [
+            svelteSVG(),            
+        ],
+        ...
+    },
+    server: {
+        plugins: [
+            svelteSVG({generate: "ssr"}),
+        ],
+        ...
+    }
 }
 ```
 
