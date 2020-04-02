@@ -27,14 +27,14 @@ export default function svg(options = {}) {
 			const [, svgStart, svgBody] = svgRegex.exec(source);
 			const content = toSvelte(svgStart, svgBody);
 			const {
-				js: { code, map }
+				js: { code, map },
 			} = Svelte.compile(content, {
 				filename: id,
 				name: head(tail(id.split(isWindows ? "\\" : "/")).split(".")),
 				format: "esm",
 				generate: options.generate,
 				hydratable: true,
-				dev: options.dev
+				dev: options.dev,
 			});
 
 			return { code, map };
