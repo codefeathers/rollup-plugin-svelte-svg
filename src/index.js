@@ -23,7 +23,7 @@ export default function svg(options = {}) {
 			if (!filter(id) || extname(id) !== ".svg") {
 				return null;
 			}
-			const svgRegex = new RegExp("(<svg.+?)(>.+)", "gs");
+			const svgRegex = new RegExp("(<svg.*?)(\/?>.*)", "gs");
 			const [, svgStart, svgBody] = svgRegex.exec(source);
 			const content = toSvelte(svgStart, svgBody);
 			const {
