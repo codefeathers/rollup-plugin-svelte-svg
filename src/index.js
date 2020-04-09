@@ -27,7 +27,7 @@ export default function svg(options = {}) {
 			const parts = svgRegex.exec(source);
 			if (!parts) {
 				throw new Error(
-					"svg file did not start with <svg> tag. Unable to convert to Svelte component",
+					"svg file did not start with <svg> tag. Unable to convert to Svelte component"
 				);
 			}
 			const [, svgStart, svgBody] = parts;
