@@ -32,13 +32,13 @@ import svelteSVG from "rollup-plugin-svelte-svg";
 export default {
     client: {
         plugins: [
-            svelteSVG(),            
+            svelteSVG({ dev }),            
         ],
         ...
     },
     server: {
         plugins: [
-            svelteSVG({generate: "ssr"}),
+            svelteSVG({ generate: "ssr", dev }),
         ],
         ...
     }
