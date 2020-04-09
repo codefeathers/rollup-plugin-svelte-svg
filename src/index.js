@@ -23,8 +23,14 @@ export default function svg(options = {}) {
 			if (!filter(id) || extname(id) !== ".svg") {
 				return null;
 			}
-			const svgRegex = new RegExp("(<svg.*?)(\/?>.*)", "gs");
-			const [, svgStart, svgBody] = svgRegex.exec(source);
+			const svgRegex = new RegExp("(<svg.*?)(/?>.*)", "gs");
+			const parts = svgRegex.exec(source);
+			if (!parts) {
+				throw new Error(
+					"svg file did not start with <svg> tag. Unable to convert to Svelte component",
+				);
+			}
+			const [, svgStart, svgBody] = parts;
 			const content = toSvelte(svgStart, svgBody);
 			const {
 				js: { code, map },
@@ -38,6 +44,6 @@ export default function svg(options = {}) {
 			});
 
 			return { code, map };
-		}
+		},
 	};
 }
