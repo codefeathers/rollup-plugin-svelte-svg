@@ -49,10 +49,10 @@ You can then use svgs in your bundle thusly:
 
 ```html
 <script>
-	import logo from "./logo.svg";
+	import Logo from "./logo.svg";
 </script>
 
-<logo width="20" />
+<Logo width="20" />
 ```
 
 ## Sources
