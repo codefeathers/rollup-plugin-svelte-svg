@@ -20,7 +20,8 @@ export default {
 	dest: "dist/output.js",
 	plugins: [
 		svelteSVG(),
-	],
+    ],
+    ...
 }
 ```
 
