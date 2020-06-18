@@ -13,6 +13,20 @@ const toSvelte = (svgStart, svgBody) => `${svgStart} {...$$props}${svgBody}`;
 const head = xs => xs[0];
 const tail = xs => xs[xs.length - 1];
 
+const validJS = /[a-zA-Z_$][0-9a-zA-Z_$]*/;
+
+const toJSClass = text =>
+	text
+		.split("-")
+		// Uppercase first character of every segment after splitting out hyphens
+		.map(segment => (segment ? segment[0].toUpperCase() + segment.slice(1) : segment))
+		.join("")
+		// split into characters
+		.split("")
+		// drop potentially unsafe characters
+		.map(x => (validJS.test(x) ? x : ""))
+		.join("");
+
 export default function svg(options = {}) {
 	const filter = createFilter(options.include, options.exclude);
 
@@ -36,7 +50,7 @@ export default function svg(options = {}) {
 				js: { code, map },
 			} = Svelte.compile(content, {
 				filename: id,
-				name: head(tail(id.split(isWindows ? "\\" : "/")).split(".")),
+				name: toJSClass(head(tail(id.split(isWindows ? "\\" : "/")).split("."))),
 				format: "esm",
 				generate: options.generate,
 				hydratable: true,
