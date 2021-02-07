@@ -37,6 +37,7 @@ export default function svg(options = {}) {
 			if (!filter(id) || extname(id) !== ".svg") {
 				return null;
 			}
+			source=decodeURIComponent(source);
 			const svgRegex = new RegExp("(<svg.*?)(/?>.*)", "gs");
 			const parts = svgRegex.exec(source);
 			if (!parts) {
