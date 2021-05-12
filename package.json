@@ -1,33 +1,30 @@
 {
 	"name": "rollup-plugin-svelte-svg",
-	"version": "0.2.3",
+	"version": "1.0.0-beta",
 	"description": "Import SVG images as Svelte Components",
-	"main": "dist/rollup-plugin-svelte-svg.cjs.js",
-	"jsnext:main": "dist/rollup-plugin-svelte-svg.es.js",
+	"main": "dist/index.js",
 	"files": [
-		"src",
 		"dist",
 		"README.md"
 	],
 	"dependencies": {
-		"rollup-pluginutils": "^1.5.2"
+		"rollup-pluginutils": "^2.8.2"
 	},
 	"devDependencies": {
-		"rimraf": "^3.0.0",
-		"rollup": "^0.26.7",
-		"svelte": "^3.20.1"
+		"rimraf": "^3.0.2",
+		"rollup": "^2.47.0",
+		"svelte": "^3.38.2"
 	},
 	"peerDependencies": {
-		"svelte": "^3.16.7"
+		"svelte": "^3.x.y"
 	},
 	"scripts": {
 		"lint": "",
 		"clean": "rimraf dist",
-		"pretest": "npm run build:cjs",
-		"build": "pnpm run clean && npm run build:cjs && npm run build:es",
-		"build:cjs": "rollup -c -o dist/rollup-plugin-svelte-svg.cjs.js -f cjs",
-		"build:es": "rollup -c -o dist/rollup-plugin-svelte-svg.es.js -f es6",
-		"prepublishOnly": "npm run build"
+		"build": "pnpm clean && rollup -c",
+		"build:w": "rollup -w -c",
+		"pretest": "pnpm build",
+		"prepublishOnly": "pnpm build"
 	},
 	"repository": {
 		"type": "git",
@@ -40,10 +37,7 @@
 		"svg",
 		"svelte"
 	],
-	"author": "Antony Jones",
-	"contributors": [
-		"MKRhere <@MKRhere> (https://mkr.pw)"
-	],
+	"author": "MKRhere <@MKRhere> (https://mkr.pw)",
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/codefeathers/rollup-plugin-svelte-svg/issues"
