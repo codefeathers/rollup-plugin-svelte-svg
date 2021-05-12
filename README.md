@@ -13,13 +13,13 @@ npm i -D rollup-plugin-svelte-svg
 ### Svelte
 ```js
 // rollup.config.js
-import svelteSVG from "rollup-plugin-svelte-svg";
+import { svelteSVG } from "rollup-plugin-svelte-svg";
 
 export default {
-	entry: "src/input.js",
-	dest: "dist/output.js",
-	plugins: [
-		svelteSVG(),
+    entry: "src/input.js",
+    dest: "dist/output.js",
+    plugins: [
+        svelteSVG(),
     ],
     ...
 }
@@ -28,7 +28,7 @@ export default {
 ### Sapper
 ```js
 // rollup.config.js
-import svelteSVG from "rollup-plugin-svelte-svg";
+import { svelteSVG } from "rollup-plugin-svelte-svg";
 
 export default {
     client: {

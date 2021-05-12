@@ -1,6 +1,6 @@
 {
 	"name": "rollup-plugin-svelte-svg",
-	"version": "1.0.0-beta",
+	"version": "1.0.0-beta1",
 	"description": "Import SVG images as Svelte Components",
 	"main": "dist/index.js",
 	"files": [
