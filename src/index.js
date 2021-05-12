@@ -8,15 +8,13 @@ import Svelte from "svelte/compiler";
 // https://nodejs.org/api/os.html#os_os_platform
 const isWindows = platform() === "win32";
 
-const toSvelte = (svgStart, svgBody) => `${svgStart} {...$$props}${svgBody}`;
-
 const head = xs => xs[0];
 const tail = xs => xs[xs.length - 1];
 
 const validJS = /[a-zA-Z_$][0-9a-zA-Z_$]*/;
 
 const toJSClass = text =>
-	text
+	head(tail(text.split(isWindows ? "\\" : "/")).split("."))
 		.split("-")
 		// Uppercase first character of every segment after splitting out hyphens
 		.map(segment => (segment ? segment[0].toUpperCase() + segment.slice(1) : segment))
@@ -27,7 +25,7 @@ const toJSClass = text =>
 		.map(x => (validJS.test(x) ? x : ""))
 		.join("");
 
-export default function svg(options = {}) {
+export function svelteSVG(options = {}) {
 	const filter = createFilter(options.include, options.exclude);
 
 	return {
@@ -37,8 +35,8 @@ export default function svg(options = {}) {
 			if (!filter(id) || extname(id) !== ".svg") {
 				return null;
 			}
-			source=decodeURIComponent(source);
-			const svgRegex = new RegExp("(<svg.*?)(/?>.*)", "gs");
+			source = decodeURIComponent(source);
+			const svgRegex = new RegExp(/(<svg.*?)(>.*)/, "s");
 			const parts = svgRegex.exec(source);
 			if (!parts) {
 				throw new Error(
@@ -46,12 +44,13 @@ export default function svg(options = {}) {
 				);
 			}
 			const [, svgStart, svgBody] = parts;
-			const content = toSvelte(svgStart, svgBody);
+			const content = `${svgStart} {...$$props}${svgBody}`;
+
 			const {
 				js: { code, map },
 			} = Svelte.compile(content, {
 				filename: id,
-				name: toJSClass(head(tail(id.split(isWindows ? "\\" : "/")).split("."))),
+				name: toJSClass(id),
 				format: "esm",
 				generate: options.generate,
 				hydratable: true,
