@@ -36,7 +36,7 @@ export function svelteSVG(options = {}) {
 				return null;
 			}
 			source = decodeURIComponent(source);
-			const svgRegex = new RegExp(/(<svg.*?)(>.*)/, "s");
+			const svgRegex = new RegExp(/(<svg.*?)(>.*)"/, "s");
 			const parts = svgRegex.exec(source);
 			if (!parts) {
 				throw new Error(
