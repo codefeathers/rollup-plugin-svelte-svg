@@ -25,6 +25,8 @@ const toJSClass = text =>
 		.map(x => (validJS.test(x) ? x : ""))
 		.join("");
 
+const svgRegex = /(<svg.*?)(>.*)/s;
+
 export function svelteSVG(options = {}) {
 	const filter = createFilter(options.include, options.exclude);
 
@@ -36,7 +38,6 @@ export function svelteSVG(options = {}) {
 				return null;
 			}
 			source = decodeURIComponent(source);
-			const svgRegex = new RegExp(/(<svg.*?)(>.*)/, "s");
 			const parts = svgRegex.exec(source);
 			if (!parts) {
 				throw new Error(
