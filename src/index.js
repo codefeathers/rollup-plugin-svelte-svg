@@ -37,7 +37,13 @@ export function svelteSVG(options = {}) {
 			if (!filter(id) || extname(id) !== ".svg") {
 				return null;
 			}
-			source = decodeURIComponent(source);
+
+			try {
+				source = decodeURIComponent(source);
+			} catch (e) {
+				console.warn(`${id} could not be decoded`, e);
+			}
+
 			const parts = svgRegex.exec(source);
 			if (!parts) {
 				throw new Error(
