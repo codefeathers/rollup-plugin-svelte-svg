@@ -37,7 +37,14 @@ export function svelteSVG(options = {}) {
 			if (!filter(id) || extname(id) !== ".svg") {
 				return null;
 			}
-			source = decodeURIComponent(source);
+
+			if (source.startsWith("export default")) {
+				// in sapper we get the SVG compiled as an ESM with
+				// the default export being the SVG encoded as data URI
+				source = source.replace(/(^export default "data:image\/svg\+xml,)|("$)/g, "");
+				source = decodeURIComponent(source);
+			}
+
 			const parts = svgRegex.exec(source);
 			if (!parts) {
 				throw new Error(
