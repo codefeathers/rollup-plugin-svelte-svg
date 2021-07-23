@@ -19,7 +19,11 @@ export default {
     entry: "src/input.js",
     dest: "dist/output.js",
     plugins: [
-        svelteSVG(),
+        svelteSVG({
+            // optional SVGO options
+            // pass empty object to enable defaults
+            svgo: {}
+        }),
     ],
     ...
 }

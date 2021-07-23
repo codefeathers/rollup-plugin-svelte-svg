@@ -5,5 +5,5 @@ export default {
 		format: "cjs",
 		file: "dist/index.js",
 	},
-	external: ["path", "os", "rollup-pluginutils", "svelte/compiler"],
+	external: ["path", "os", "rollup-pluginutils", "svelte/compiler", "svgo"],
 };

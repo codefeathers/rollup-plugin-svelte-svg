@@ -1,5 +1,6 @@
 import { extname } from "path";
 import { platform } from "os";
+import { optimize as optimise } from "svgo";
 
 import { createFilter } from "rollup-pluginutils";
 import Svelte from "svelte/compiler";
@@ -45,27 +46,30 @@ export function svelteSVG(options = {}) {
 				source = decodeURIComponent(source);
 			}
 
-			const parts = svgRegex.exec(source);
-			if (!parts) {
-				throw new Error(
-					"svg file did not start with <svg> tag. Unable to convert to Svelte component"
-				);
+			function process(source) {
+				const parts = svgRegex.exec(source);
+				if (!parts) {
+					throw new Error(
+						"svg file did not start with <svg> tag. Unable to convert to Svelte component"
+					);
+				}
+				const [, svgStart, svgBody] = parts;
+				const content = `${svgStart} {...$$props}${svgBody}`;
+
+				const {
+					js: { code, map },
+				} = Svelte.compile(content, {
+					filename: id,
+					name: toJSClass(id),
+					format: "esm",
+					generate: options.generate,
+					hydratable: true,
+					dev: options.dev,
+				});
+				return { code, map };
 			}
-			const [, svgStart, svgBody] = parts;
-			const content = `${svgStart} {...$$props}${svgBody}`;
 
-			const {
-				js: { code, map },
-			} = Svelte.compile(content, {
-				filename: id,
-				name: toJSClass(id),
-				format: "esm",
-				generate: options.generate,
-				hydratable: true,
-				dev: options.dev,
-			});
-
-			return { code, map };
+			return options.svgo ? process(optimise(source, options.svgo).data) : process(source);
 		},
 	};
 }
