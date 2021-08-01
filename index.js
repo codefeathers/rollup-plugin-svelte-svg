@@ -16,14 +16,15 @@ function addProps(source) {
 }
 
 exports.svelteSVG = function svelteSVG(options = {}) {
-	const { svgo } = options;
+	const { svgo, enforce } = options;
 	const filter = createFilter(options.include, options.exclude);
 
 	return {
 		name: "rollup-plugin-svelte-svg",
 
-		// vite-only option, forces us to load before vite core/svelte
-		enforce: "pre",
+		// vite-only
+		// https://vitejs.dev/guide/api-plugin.html#plugin-ordering
+		...(enforce && { enforce }),
 
 		resolveId(source, importer) {
 			if (!filter(source) || extname(source) !== ".svg") return null;

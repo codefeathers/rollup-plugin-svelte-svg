@@ -88,11 +88,16 @@ import { defineConfig } from "vite";
 import { svelteSVG } from "rollup-plugin-svelte-svg";
 
 export default defineConfig({
+    ...
     plugins: [
         svelteSVG({
             // optional SVGO options
             // pass empty object to enable defaults
             svgo: {},
+            // vite-specific
+            // https://vitejs.dev/guide/api-plugin.html#plugin-ordering
+            // enforce: 'pre' | 'post'
+            enforce: "pre",
         }),
         ...
     ],
@@ -113,7 +118,7 @@ You can then import svg in your JS thusly:
 
 * This plugin was originally forked from [antony/rollup-plugin-svg](https://github.com/antony/rollup-plugin-svg), but has been rewritten since.
 
-* [@featherbear](https://github.com/featherbear)'s fork and [metafy-gg's fork](https://github.com/metafy-gg/vite-plugin-svelte-svg) inspired svgo optimisation and vite support.
+* [@featherbear's fork](https://github.com/featherbear/rollup-plugin-svelte-svg) and [metafy-gg's fork](https://github.com/metafy-gg/vite-plugin-svelte-svg) inspired svgo optimisation and vite support.
 
 ## License
 
