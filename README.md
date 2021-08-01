@@ -6,9 +6,15 @@ Import SVG files as Svelte Components
 
 ```bash
 npm i -D rollup-plugin-svelte-svg
+
+yarn add -D rollup-plugin-svelte-svg
+
+pnpm i -D rollup-plugin-svelte-svg
 ```
 
 ## Usage
+
+Simply call `svelteSVG` before `svelte` in your rollup config.
 
 ### Svelte
 ```js
@@ -43,7 +49,11 @@ export default {
     },
     server: {
         plugins: [
-            svelteSVG({ generate: "ssr", dev }),
+            svelteSVG({
+                // optional SVGO options
+                // pass empty object to enable defaults
+                svgo: {}
+            }),
         ],
         ...
     }
@@ -57,12 +67,14 @@ You can then use svgs in your bundle thusly:
 	import Logo from "./logo.svg";
 </script>
 
-<Logo width="20" />
+<Logo width=20 />
 ```
 
-## Sources
+## Credits
 
-This plugin was forked from [@antony/rollup-plugin-svg](https://github.com/antony/rollup-plugin-svg) to import SVGs as Svelte components.
+This plugin was originally forked from [@antony/rollup-plugin-svg](https://github.com/antony/rollup-plugin-svg), but has been rewritten since.
+
+@featherbear's deleted fork and [metafy-gg's fork](https://github.com/metafy-gg/vite-plugin-svelte-svg) fork inspired svgo optimisation and vite support.
 
 ## License
 

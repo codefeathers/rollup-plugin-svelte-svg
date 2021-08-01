@@ -2,41 +2,25 @@
 	"name": "rollup-plugin-svelte-svg",
 	"version": "1.0.0-beta.3",
 	"description": "Import SVG images as Svelte Components",
-	"main": "dist/index.js",
-	"files": [
-		"dist",
-		"README.md"
-	],
+	"main": "index.js",
 	"dependencies": {
 		"rollup-pluginutils": "^2.8.2",
 		"svgo": "^2.3.1"
 	},
-	"devDependencies": {
-		"rimraf": "^3.0.2",
-		"rollup": "^2.47.0",
-		"svelte": "^3.38.2"
-	},
 	"peerDependencies": {
-		"svelte": "3.x"
-	},
-	"scripts": {
-		"lint": "",
-		"clean": "rimraf dist",
-		"build": "pnpm clean && rollup -c",
-		"build:w": "rollup -w -c",
-		"pretest": "pnpm build",
-		"prepublishOnly": "pnpm build"
+		"svelte": "*"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/codefeathers/rollup-plugin-svelte-svg.git"
 	},
 	"keywords": [
-		"rollup",
-		"modules",
-		"images",
+		"rollup-plugin",
+		"vite-plugin",
 		"svg",
-		"svelte"
+		"images",
+		"svelte",
+		"svelte-component"
 	],
 	"author": "MKRhere <@MKRhere> (https://mkr.pw)",
 	"license": "MIT",
