@@ -2,13 +2,29 @@
 
 Import SVG files as Svelte Components
 
+> Note: `rollup-plugin-svelte-svg` was rewritten from scratch recently, and no longer exposes Svelte options `({ dev, generate })` since we now delegate compilation to the Svelte plugin that's loaded after us. You should remove these options since they have no effect.
+>
+> This is a nonbreaking change for most users, however if you do face a problem, raise an issue.
+
+## Contents
+- [Installation](#installation)
+- [Usage](#usage)
+    - [Svelte](#svelte)
+    - [Sapper](#sapper)
+    - [Vite](#vite)
+- [Credits](#credits)
+- [License](#license)
+
 ## Installation
 
 ```bash
+# using npm
 npm i -D rollup-plugin-svelte-svg
 
+# using yarn
 yarn add -D rollup-plugin-svelte-svg
 
+# using pnpm
 pnpm i -D rollup-plugin-svelte-svg
 ```
 
@@ -43,7 +59,11 @@ import { svelteSVG } from "rollup-plugin-svelte-svg";
 export default {
     client: {
         plugins: [
-            svelteSVG({ dev }),            
+            svelteSVG({
+                // optional SVGO options
+                // pass empty object to enable defaults
+                svgo: {},
+            }),
         ],
         ...
     },
@@ -56,11 +76,30 @@ export default {
             }),
         ],
         ...
-    }
+    },
 }
 ```
 
-You can then use svgs in your bundle thusly:
+### Vite
+
+```js
+// vite.config.js
+import { defineConfig } from "vite"; 
+import { svelteSVG } from "rollup-plugin-svelte-svg";
+
+export default defineConfig({
+    plugins: [
+        svelteSVG({
+            // optional SVGO options
+            // pass empty object to enable defaults
+            svgo: {},
+        }),
+        ...
+    ],
+});
+```
+
+You can then import svg in your JS thusly:
 
 ```html
 <script>
@@ -72,9 +111,9 @@ You can then use svgs in your bundle thusly:
 
 ## Credits
 
-This plugin was originally forked from [@antony/rollup-plugin-svg](https://github.com/antony/rollup-plugin-svg), but has been rewritten since.
+* This plugin was originally forked from [antony/rollup-plugin-svg](https://github.com/antony/rollup-plugin-svg), but has been rewritten since.
 
-@featherbear's deleted fork and [metafy-gg's fork](https://github.com/metafy-gg/vite-plugin-svelte-svg) fork inspired svgo optimisation and vite support.
+* [@featherbear](https://github.com/featherbear)'s fork and [metafy-gg's fork](https://github.com/metafy-gg/vite-plugin-svelte-svg) inspired svgo optimisation and vite support.
 
 ## License
 
