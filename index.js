@@ -1,5 +1,5 @@
 const { extname, dirname, resolve } = require("path");
-const { readFile } = require("fs/promises");
+const { readFile } = require("fs").promises;
 
 const { optimize: optimise } = require("svgo");
 const { createFilter } = require("rollup-pluginutils");
