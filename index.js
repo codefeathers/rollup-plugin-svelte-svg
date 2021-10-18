@@ -26,10 +26,16 @@ exports.svelteSVG = function svelteSVG(options = {}) {
 		// https://vitejs.dev/guide/api-plugin.html#plugin-ordering
 		...(enforce && { enforce }),
 
-		resolveId(source, importer) {
+		async resolveId(source, importer, options) {
 			if (!filter(source) || extname(source) !== ".svg") return null;
 
-			return resolve(dirname(importer), source + ".svelte");
+			// resolve path using other plugins first (alias, node-resolve, etc)
+			const {id: resovledId} = await this.resolve(source, importer, {skipSelf: true, ...options}); 
+
+			// add .svelte to resolved id for the file to be processed by the svelte plugin
+			const appendDotSvelte = resovledId + ".svelte"
+
+			return appendDotSvelte
 		},
 
 		load(id) {
