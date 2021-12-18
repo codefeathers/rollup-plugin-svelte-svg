@@ -1,4 +1,4 @@
-const { extname, dirname, resolve } = require("path");
+const { extname } = require("path");
 const { readFile } = require("fs").promises;
 
 const { optimize: optimise } = require("svgo");
@@ -15,6 +15,9 @@ function addProps(source) {
 	return `${svgStart} {...$$props} ${svgBody}`;
 }
 
+const SVELTE_EXT = ".rollup-plugin.svelte";
+const SVG_SVELTE_EXT = ".svg" + SVELTE_EXT;
+
 exports.svelteSVG = function svelteSVG(options = {}) {
 	const { svgo, enforce } = options;
 	const filter = createFilter(options.include, options.exclude);
@@ -26,16 +29,31 @@ exports.svelteSVG = function svelteSVG(options = {}) {
 		// https://vitejs.dev/guide/api-plugin.html#plugin-ordering
 		...(enforce && { enforce }),
 
-		resolveId(source, importer) {
-			if (!filter(source) || extname(source) !== ".svg") return null;
+		async resolveId(source, importer, options) {
+			if (!filter(source) || (extname(source) !== ".svg" && !source.endsWith(SVG_SVELTE_EXT))) {
+				// We don't handle anything other than .svg and .svg.rollup-plugin.svelte
+				return null;
+			}
 
-			return resolve(dirname(importer), source + ".svelte");
+			if (source.endsWith(SVG_SVELTE_EXT)) {
+				// vite is calling us  with ".svg.rollup-plugin.svelte"
+				source = source.slice(0, -SVELTE_EXT.length);
+			}
+
+			return (
+				(
+					await this.resolve(source, importer, {
+						skipSelf: true,
+						...options,
+					})
+				).id + SVELTE_EXT
+			);
 		},
 
 		load(id) {
-			if (!id.endsWith(".svg.svelte")) return null;
+			if (!id.endsWith(SVG_SVELTE_EXT)) return null;
 
-			return readFile(id.slice(0, -".svelte".length), "utf-8")
+			return readFile(id.slice(0, -SVELTE_EXT.length), "utf-8")
 				.then(file => (svgo ? optimise(file, svgo).data : file))
 				.then(file => file.replace(svgheader, "").trim())
 				.then(addProps);
