@@ -12,7 +12,7 @@ function addProps(source) {
 	if (!parts) throw new Error("Unable to parse as svg.");
 
 	const [, svgStart, end, svgBody] = parts;
-	return `${svgStart} role="img" {...$$props} ${end}<title><slot></slot></title>${svgBody}`;
+	return `${svgStart} role="img" {...$$props} ${end}<slot/>${svgBody}`;
 }
 
 const SVELTE_EXT = ".rollup-plugin.svelte";
