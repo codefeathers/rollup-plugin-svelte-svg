@@ -4,15 +4,15 @@ const { readFile } = require("fs").promises;
 const { optimize: optimise } = require("svgo");
 const { createFilter } = require("rollup-pluginutils");
 
-const svgRegex = /(<svg.*?)(>.*)/s;
+const svgRegex = /(<svg.*?)(>)(.*)/s;
 const svgheader = /^\<\?xml.+?\>/;
 
 function addProps(source) {
 	const parts = svgRegex.exec(source);
 	if (!parts) throw new Error("Unable to parse as svg.");
 
-	const [, svgStart, svgBody] = parts;
-	return `${svgStart} {...$$props} ${svgBody}`;
+	const [, svgStart, end, svgBody] = parts;
+	return `${svgStart} role="img" {...$$props} ${end}<slot/>${svgBody}`;
 }
 
 const SVELTE_EXT = ".rollup-plugin.svelte";
