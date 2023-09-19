@@ -114,6 +114,14 @@ You can then import svg in your JS thusly:
 <Logo width=20 />
 ```
 
+The Svelte component implements a single `<slot />` so you can insert arbitrary content into the SVG just past the opening `<svg>` tag. For example:
+
+```html
+<Logo width="20">
+  <title>Here's some accessibility text!</title>
+</Logo>
+```
+
 ## Credits
 
 * This plugin was originally forked from [antony/rollup-plugin-svg](https://github.com/antony/rollup-plugin-svg), but has been rewritten since.
