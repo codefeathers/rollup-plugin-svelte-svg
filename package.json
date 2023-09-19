@@ -3,9 +3,12 @@
 	"version": "1.0.0-beta.6",
 	"description": "Import SVG images as Svelte Components",
 	"main": "index.js",
+	"scripts": {
+		"prepare": "tsc"
+	},
 	"dependencies": {
 		"rollup-pluginutils": "^2.8.2",
-		"svgo": "^2.3.1"
+		"svgo": "^3.0.2"
 	},
 	"peerDependencies": {
 		"svelte": "*"
@@ -27,5 +30,9 @@
 	"bugs": {
 		"url": "https://github.com/codefeathers/rollup-plugin-svelte-svg/issues"
 	},
-	"homepage": "https://github.com/codefeathers/rollup-plugin-svelte-svg#readme"
+	"homepage": "https://github.com/codefeathers/rollup-plugin-svelte-svg#readme",
+	"devDependencies": {
+		"@types/node": "^20.6.1",
+		"typescript": "^5.2.2"
+	}
 }
