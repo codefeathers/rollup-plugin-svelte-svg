@@ -1,3 +1,6 @@
+> [!CAUTION]
+> This package is DEPRECATED. Svelte supports importing SVGs natively now. See: https://svelte.dev/playground/86553af5c35449ab88e34f1e50eb298f?version=5.30.1
+
 # rollup-plugin-svelte-svg
 
 Import SVG files as Svelte Components
